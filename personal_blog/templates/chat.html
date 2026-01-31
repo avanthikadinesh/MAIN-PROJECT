@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.chat-container {
+  max-width: 700px;
+  margin: auto;
+}
+
+.chat-msg {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 12px;
+}
+
+.chat-msg.right {
+  justify-content: flex-end;
+}
+
+.chat-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.chat-bubble {
+  max-width: 60%;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+}
+
+.left .chat-bubble {
+  background: #f1f1f1;
+  margin-left: 8px;
+}
+
+.right .chat-bubble {
+  background: #0d6efd;
+  color: white;
+  margin-right: 8px;
+}
+</style>
+
+<div class="container mt-4 chat-container">
+  <div class="card shadow">
+
+    <!-- HEADER -->
+    <div class="card-header d-flex align-items-center gap-2">
+      <img
+        src="{% if author.profile.image %}{{ author.profile.image.url }}{% else %}{% static 'images/default-user.png' %}{% endif %}"
+        class="chat-avatar"
+      >
+      <strong>{{ author.username }}</strong>
+    </div>
+
+    <!-- BODY -->
+    <div class="card-body" style="height:350px; overflow-y:auto;">
+
+      {% for msg in messages %}
+
+        {% if msg.sender == request.user %}
+          <!-- RIGHT MESSAGE -->
+          <div class="chat-msg right">
+            <div class="chat-bubble">{{ msg.text }}</div>
+            <img
+              src="{% if request.user.profile.image %}{{ request.user.profile.image.url }}{% else %}{% static 'images/default-user.png' %}{% endif %}"
+              class="chat-avatar"
+            >
+          </div>
+        {% else %}
+          <!-- LEFT MESSAGE -->
+          <div class="chat-msg left">
+            <img
+              src="{% if author.profile.image %}{{ author.profile.image.url }}{% else %}{% static 'images/default-user.png' %}{% endif %}"
+              class="chat-avatar"
+            >
+            <div class="chat-bubble">{{ msg.text }}</div>
+          </div>
+        {% endif %}
+
+      {% empty %}
+        <p class="text-muted text-center">No messages yet</p>
+      {% endfor %}
+
+    </div>
+
+    <!-- SEND -->
+    <div class="card-footer">
+      <form method="post" class="d-flex gap-2">
+        {% csrf_token %}
+        <input
+          type="text"
+          name="message"
+          class="form-control rounded-pill"
+          placeholder="Type a message..."
+          required
+        >
+        <button type="submit" class="btn btn-primary rounded-pill">
+          Send
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

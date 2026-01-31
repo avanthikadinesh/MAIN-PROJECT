@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="card shadow-lg" style="width: 600px;">
+    
+    <div class="card-header bg-dark text-white text-center">
+      <h4>Edit Profile</h4>
+    </div>
+
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Username -->
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          {{ user_form.username }}
+        </div>
+
+        
+
+        <!-- Bio -->
+        <div class="mb-3">
+          <label class="form-label">Bio</label>
+          {{ profile_form.bio }}
+        </div>
+
+        <!-- Profile Picture -->
+        <div class="mb-3">
+          <label class="form-label">Profile Picture</label>
+          {{ profile_form.image }}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+          Save Changes
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

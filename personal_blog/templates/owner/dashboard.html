@@ -1,0 +1,31 @@
+{% extends "blog_app/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>👑 Owner Dashboard</h2>
+    <hr>
+
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="card p-3 shadow">
+                <h4>Total Users</h4>
+                <p>{{ total_users }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3 shadow">
+                <h4>Total Posts</h4>
+                <p>{{ total_posts }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3 shadow">
+                <h4>Total Profiles</h4>
+                <p>{{ total_profiles }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

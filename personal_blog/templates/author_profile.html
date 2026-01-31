@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+
+  <!-- PROFILE CARD -->
+  <div class="card shadow-sm mb-5">
+    <div class="card-body">
+      <div class="row align-items-center">
+
+        <!-- PROFILE IMAGE -->
+        <div class="col-md-3 text-center">
+          <img src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+               class="rounded-circle" style="width:140px;height:140px;object-fit:cover;">
+        </div>
+
+        <!-- PROFILE INFO -->
+        <div class="col-md-6">
+          <h3>{{ profile_user.username }}</h3>
+          <p class="text-muted">{{ profile.bio|default:"No bio added yet" }}</p>
+          <div class="d-flex gap-4">
+            <a href="{% url 'followers_list' profile_user.username %}">
+              <strong>{{ followers_count }}</strong> Followers
+            </a>
+            <a href="{% url 'following_list' profile_user.username %}">
+              <strong>{{ following_count }}</strong> Following
+            </a>
+          </div>
+        </div>
+
+        <!-- FOLLOW/UNFOLLOW BUTTON -->
+        <div class="col-md-3 text-end">
+          {% if request.user != profile_user %}
+          <form method="POST" action="{% url 'toggle_follow' profile_user.username %}">
+            {% csrf_token %}
+            {% if request.user in profile.followers.all %}
+              <button class="btn btn-outline-secondary">Unfollow</button>
+            {% else %}
+              <button class="btn btn-primary">Follow</button>
+            {% endif %}
+          </form>
+          {% else %}
+          <a href="{% url 'edit_profile' %}" class="btn btn-outline-primary">Edit Profile</a>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- POSTS BY USER -->
+  <h4 class="mb-4">Posts by {{ profile_user.username }}</h4>
+  <div class="row">
+    {% for post in posts %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          {% if post.image %}
+          <img src="{{ post.image.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="text-muted">{{ post.content|truncatewords:15 }}</p>
+            <a href="{% url 'post_detail' post.id %}" class="btn btn-sm btn-primary">Read More</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No posts yet.</p>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

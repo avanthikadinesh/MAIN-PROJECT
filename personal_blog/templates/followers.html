@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h3>{{ title }} of {{ profile_user.username }}</h3>
+  <ul class="list-group mt-3">
+    {% for user in users %}
+      <li class="list-group-item">
+        <a href="{% url 'author_profile' user.username %}">{{ user.username }}</a>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No users found.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

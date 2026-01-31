@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">All Posts</h2>
+  <div class="row">
+    {% for post in posts %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          {% if post.image %}
+            <img src="{{ post.image.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+            </h5>
+            <p class="text-muted">{{ post.content|truncatewords:15 }}</p>
+            <p class="text-sm">
+              By: <a href="{% url 'author-profile' post.author.username %}">
+                {{ post.author.username }}
+              </a>
+            </p>
+          </div>
+          <div class="card-footer bg-white border-0">
+            <a href="{% url 'post-detail' post.id %}" class="btn btn-sm btn-primary">Read More</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <p class="text-muted">No posts yet.</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

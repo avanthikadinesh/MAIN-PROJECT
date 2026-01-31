@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Post{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Add New Blog Post</h4>
+                </div>
+
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            {{ form.title }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Content</label>
+                            {{ form.content }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            {{ form.category }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Image</label>
+                            {{ form.image }}
+                        </div>
+
+                        <button type="submit" class="btn btn-success">
+                            Publish
+                        </button>
+
+                        <a href="{% url 'blog_list' %}" class="btn btn-secondary ms-2">
+                            Back
+                        </a>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

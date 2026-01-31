@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+  <h4 class="mb-4">{{ title }}</h4>
+
+  <div class="list-group">
+    {% for user in users %}
+      <a href="{% url 'author_profile' user.username %}"
+         class="list-group-item list-group-item-action d-flex align-items-center gap-3">
+        <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+             class="rounded-circle" width="40" height="40">
+        {{ user.username }}
+      </a>
+    {% empty %}
+      <p>No users found.</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

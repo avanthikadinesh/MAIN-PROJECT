@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Login | MyBlog{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card p-4 shadow-sm">
+            <h3 class="text-center mb-4">Login</h3>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+                <div class="mb-3">
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                    {{ form.password.errors }}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+            <p class="text-center text-muted mt-3">
+                Don't have an account? <a href="{% url 'register' %}">Sign Up</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
